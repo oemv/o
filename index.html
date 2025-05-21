@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My 3D Scene</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <style>
+    canvas { display: block; }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <div id="scene-container"></div>
+  <script>
+    // 1. Get Container
+    const container = document.getElementById('scene-container');
+
+    // 2. Scene
+    const scene = new THREE.Scene();
+
+    // 3. Camera
+    const fov = 75;
+    const aspect = container.clientWidth / container.clientHeight;
+    const near = 0.1;
+    const far = 1000;
+    const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+    camera.position.z = 5; // Move camera back so we can see the cube
+
+    // 4. Renderer
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
+
+    // 5. Geometry, Material, Mesh
+    const geometry = new THREE.BoxGeometry(1, 1, 1); // width, height, depth
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Green
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+
+    // 6. Animation Loop
+    function animate() {
+      requestAnimationFrame(animate);
+
+      // Simple animation: rotate the cube
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.01;
+
+      renderer.render(scene, camera);
+    }
+
+    // Initial call to start the animation
+    animate();
+  </script>
+</body>
+</html>
